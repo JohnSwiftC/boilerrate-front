@@ -1,5 +1,3 @@
-import { getAuth } from './contexts/AuthContext.tsx'
-
 interface ApiOptions extends RequestInit {
   headers?: Record<string, string>
 }

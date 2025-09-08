@@ -8,6 +8,7 @@ interface User {
 
 interface AuthResult {
     success: boolean
+    error?: string
 }
 
 interface AuthContextType {
@@ -33,7 +34,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch('https://api.boilerrate.com', {
+      const response = await fetch('https://api.boilerrate.com/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +48,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         
         localStorage.setItem('token', token)
         // Still need to grab email to make user
-        // Figure this out later, pacman npm mirror is broken
+        // some jwt library
         setUser({ email: null })
         return { success: true }
       } else {
@@ -70,4 +71,10 @@ export function AuthProvider({ children }: {children: ReactNode}) {
   )
 }
 
-export const useAuth = () => useContext(AuthContext)
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext)
+  if (!context) {  
+    throw new Error('useAuth must be used within an AuthProvider')
+  }
+  return context
+}

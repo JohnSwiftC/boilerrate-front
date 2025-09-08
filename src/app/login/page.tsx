@@ -1,6 +1,12 @@
 'use client'
+import LoginForm from '../../../components/LoginForm'
 
-import { getAuth } from "./contexts/AuthContext"
-import { login } from "./lib/api"
+const LoginPage = () => {
 
-const LoginPage
+
+    return (
+        <LoginForm></LoginForm>
+    )
+}
+
+export default LoginPage

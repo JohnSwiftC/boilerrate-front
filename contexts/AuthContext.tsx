@@ -17,6 +17,26 @@ interface AuthContextType {
     logout: () => void,
 }
 
+interface LoginSuccess {
+  Success: {
+    jwt: {
+      token: string
+    }
+  }
+}
+
+interface LoginFailure {
+  Failure: string
+}
+
+function isLoginSuccess(response: any): response is LoginSuccess {
+  return response && typeof response.Success.jwt.token === 'string'
+}
+
+function isLoginFailure(response: any): response is LoginFailure {
+  return response && typeof response.Failure === 'string'
+}
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: {children: ReactNode}) {
@@ -42,9 +62,12 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         body: JSON.stringify({ email, password }),
       })
 
-      if (response.ok) {
+      const data = response.json()
+
+      if (response.ok && isLoginSuccess(data)) {
         const data = await response.json()
-        const token = data.Success.token
+        console.log(data)
+        const token = data.Success.jwt.token
         
         localStorage.setItem('token', token)
         // Still need to grab email to make user
@@ -52,7 +75,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         setUser({ email: null })
         return { success: true }
       } else {
-        return { success: false, error: 'Invalid credentials' }
+        return { success: false, error: "Could not login" }
       }
     } catch (error) {
       return { success: false, error: 'Network error' }

@@ -33,7 +33,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch('https://api.mydomain.com/login', {
+      const response = await fetch('https://api.boilerrate.com', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -43,10 +43,11 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 
       if (response.ok) {
         const data = await response.json()
-        const token = data.token // or however your API returns the JWT
+        const token = data.Success.token
         
         localStorage.setItem('token', token)
         // Still need to grab email to make user
+        // Figure this out later, pacman npm mirror is broken
         setUser({ email: null })
         return { success: true }
       } else {

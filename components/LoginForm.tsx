@@ -6,7 +6,7 @@ export default function LoginForm() {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [error, setError] = useState<string>('')
-  const { login } = useAuth()
+  const { login, user } = useAuth()
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -16,6 +16,8 @@ export default function LoginForm() {
       setError(result.error)
     }
   }
+
+  console.log(JSON.stringify(user))
 
   return (
     <form onSubmit={handleSubmit}>

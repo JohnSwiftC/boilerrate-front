@@ -1,8 +1,7 @@
 // contexts/AuthContext.js
 'use client'
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
-
-const jwt = require('jsonwebtoken')
+import { jwtDecode } from "jwt-decode";
 
 interface User {
     email: string | null,
@@ -45,11 +44,17 @@ export function AuthProvider({ children }: {children: ReactNode}) {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
-  // Check for existing token on app load
+  // Important to note here,
+  // A user could modify the JWT on the client, but all important
+  // operations are held on the backend, so it would only be superficial
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
-      
+      const decoded: User = jwtDecode(token);
+
+      if (typeof decoded.email === "string") {
+        setUser({ email: decoded.email })
+      }
     }
     setLoading(false)
   }, [])
@@ -73,13 +78,11 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         
         localStorage.setItem('token', token)
         
-        jwt.verify(token, "testenvsecret", function(err: any, decoded: any) {
-          if (typeof decoded.email === 'string') {
-            setUser({ email: decoded.email })
-          } else {
-            setUser({ email: null })
-          }
-        });
+        const decoded: User = jwtDecode(token);
+
+        if (typeof decoded.email === "string") {
+          setUser({ email: decoded.email });
+        }
 
         return { success: true }
       } else {

@@ -2,6 +2,8 @@
 'use client'
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 
+const jwt = require('jsonwebtoken')
+
 interface User {
     email: string | null,
 }
@@ -70,9 +72,15 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         const token = data.Success.jwt.token
         
         localStorage.setItem('token', token)
-        // Still need to grab email to make user
-        // some jwt library
-        setUser({ email: null })
+        
+        jwt.verify(token, "testenvsecret", function(err: any, decoded: any) {
+          if (typeof decoded.email === 'string') {
+            setUser({ email: decoded.email })
+          } else {
+            setUser({ email: null })
+          }
+        });
+
         return { success: true }
       } else {
         return { success: false, error: "Could not login" }

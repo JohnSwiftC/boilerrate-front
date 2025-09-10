@@ -69,10 +69,10 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         body: JSON.stringify({ email, password }),
       })
 
-      const data = response.json()
+      const data = await response.json()
 
       if (response.ok && isLoginSuccess(data)) {
-        const data = await response.json()
+        
         console.log(data)
         const token = data.Success.jwt.token
         

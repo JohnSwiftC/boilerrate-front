@@ -17,7 +17,6 @@ export default function LoginForm() {
     }
   }
 
-  console.log(JSON.stringify(user))
 
   return (
     <form onSubmit={handleSubmit}>

@@ -1,5 +1,6 @@
 'use client'
 import { useState, FormEvent } from 'react'
+import { useRouter } from 'next/navigation'
 import { useAuth } from '../contexts/AuthContext'
 
 export default function LoginForm() {
@@ -8,12 +9,16 @@ export default function LoginForm() {
   const [error, setError] = useState<string>('')
   const { login, user } = useAuth()
 
+  const router = useRouter();
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const result = await login(email, password)
    
     if (!result.success && result.error) {
       setError(result.error)
+    } else {
+      router.push('/')
     }
   }
 
@@ -31,7 +36,7 @@ export default function LoginForm() {
           <div className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
+                Purdue email
               </label>
               <input
                 id="email"

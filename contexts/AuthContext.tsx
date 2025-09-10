@@ -31,11 +31,7 @@ interface LoginFailure {
 }
 
 function isLoginSuccess(response: any): response is LoginSuccess {
-  return response && typeof response.Success.jwt.token === 'string'
-}
-
-function isLoginFailure(response: any): response is LoginFailure {
-  return response && typeof response.Failure === 'string'
+  return response && response.Success != null
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -86,10 +82,10 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 
         return { success: true }
       } else {
-        return { success: false, error: "Could not login" }
+        return { success: false, error: data.Failure }
       }
     } catch (error) {
-      return { success: false, error: 'Network error' }
+      return { success: false, error: `${error}` }
     }
   }
 

@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 
 export interface User {
     email: string | null,
+    conn: boolean
 }
 
 interface AuthResult {
@@ -15,6 +16,7 @@ interface AuthResult {
 interface AuthContextType {
     user: User | null,
     login: (email: string, password: string) => Promise<AuthResult>
+    get_oauth: () => Promise<string>
     logout: () => void,
 }
 
@@ -45,7 +47,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
       const decoded: User = jwtDecode(token);
 
       if (typeof decoded.email === "string") {
-        setUser({ email: decoded.email })
+        setUser({ email: decoded.email, conn: decoded.conn })
       }
     }
     setLoading(false)
@@ -73,7 +75,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         const decoded: User = jwtDecode(token);
 
         if (typeof decoded.email === "string") {
-          setUser({ email: decoded.email });
+          setUser({ email: decoded.email, conn: decoded.conn });
         }
 
         return { success: true }
@@ -85,13 +87,30 @@ export function AuthProvider({ children }: {children: ReactNode}) {
     }
   }
 
+  const get_oauth = async () => {
+    const token = localStorage.getItem('token')
+
+    if (!token) {
+      return ''
+    }
+
+    let response = await fetch('https://api.boilerrate.com/oauth/get_route', {
+      method: 'GET',
+      headers: {'Authorization': `Bearer ${token}`},
+    })
+
+    const data = await response.json();
+
+    return data.auth_url
+  }
+
   const logout = () => {
     localStorage.removeItem('token')
     setUser(null)
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout}}>
+    <AuthContext.Provider value={{ user, login, get_oauth, logout}}>
       {children}
     </AuthContext.Provider>
   )

@@ -27,7 +27,7 @@ const Root = () => {
 
   return (
     <div className="flex flex-col items-center p-10">
-      {user?.conn === false && (
+      {user && !user.conn && (
         <div className='mb-10 relative w-50'>
         <button
           onClick={do_oauth}

@@ -25,9 +25,6 @@
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
     "@eslint/eslintrc": "^3"
-  },
-  "bun": {
-    "registry": "https://registry.npmjs.org/"
   }
 }
 

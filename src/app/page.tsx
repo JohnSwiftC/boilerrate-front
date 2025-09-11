@@ -7,13 +7,20 @@ const Root = () => {
 
   const [oauthURL, setOauthURL] = useState<string>()
   const { user, get_oauth } = useAuth();
+  const [userIsConn, setUserIsConn] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (user) {
+      if (user.conn == true) {
+        setUserIsConn(true)
+      }
+    }
+  }, [])
 
   const do_oauth = async () => {
     const url = await get_oauth()
     window.location.href = url
   }
-
-
 
   const getEmail = (user: User | null): string => {
     if (user) {
@@ -27,7 +34,7 @@ const Root = () => {
 
   return (
     <div className="flex flex-col items-center p-10">
-      {user && !user.conn && (
+      {userIsConn && (
         <div className='mb-10 relative w-50'>
         <button
           onClick={do_oauth}

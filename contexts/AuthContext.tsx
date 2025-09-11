@@ -7,11 +7,6 @@ export interface User {
     email: string | null,
 }
 
-interface RegisterResult {
-  success: boolean,
-  error?: string,
-}
-
 interface AuthResult {
     success: boolean
     error?: string
@@ -20,7 +15,6 @@ interface AuthResult {
 interface AuthContextType {
     user: User | null,
     login: (email: string, password: string) => Promise<AuthResult>
-    register: (email: string, password: string) => Promise<RegisterResult>
     logout: () => void,
 }
 
@@ -91,36 +85,13 @@ export function AuthProvider({ children }: {children: ReactNode}) {
     }
   }
 
-  const register = async (email: string, password: string) => {
-    try {
-      const response = await fetch('https://api.boilerrate.com/create_user', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      })
-
-      const data = await response.json()
-
-      if (data.Success) {
-        return { success: true }
-      } else {
-        return { success: false, error: data.Failure }
-      }
-
-    } catch(error) {
-      return { success: false, error: `${error}`}
-    }
-  }
-
   const logout = () => {
     localStorage.removeItem('token')
     setUser(null)
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, register }}>
+    <AuthContext.Provider value={{ user, login, logout}}>
       {children}
     </AuthContext.Provider>
   )

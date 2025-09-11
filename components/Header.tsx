@@ -31,12 +31,22 @@ export default function Header() {
                 </button>
               </>
             ) : (
-              <Link
-                href="/login"
-                className="bg-yellow-500 hover:bg-indigo-700 text-black px-4 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Login
-              </Link>
+                <div>
+                    <Link
+                        href="/login"
+                        className="bg-gray-400 hover:bg-gray-700 text-black px-4 py-2 rounded-md text-sm font-medium transition-colors m-2"
+                    >
+                        Login
+                    </Link>
+
+                    <Link
+                        href="/register"
+                        className="bg-yellow-500 hover:bg-gray-700 text-black px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                    >
+                        Register
+                    </Link>
+
+                </div>
             )}
           </div>
         </div>

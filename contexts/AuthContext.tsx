@@ -7,6 +7,11 @@ export interface User {
     email: string | null,
 }
 
+interface RegisterResult {
+  success: boolean,
+  error?: string,
+}
+
 interface AuthResult {
     success: boolean
     error?: string
@@ -15,6 +20,7 @@ interface AuthResult {
 interface AuthContextType {
     user: User | null,
     login: (email: string, password: string) => Promise<AuthResult>
+    register: (email: string, password: string) => Promise<RegisterResult>
     logout: () => void,
 }
 
@@ -24,10 +30,6 @@ interface LoginSuccess {
       token: string
     }
   }
-}
-
-interface LoginFailure {
-  Failure: string
 }
 
 function isLoginSuccess(response: any): response is LoginSuccess {
@@ -89,13 +91,36 @@ export function AuthProvider({ children }: {children: ReactNode}) {
     }
   }
 
+  const register = async (email: string, password: string) => {
+    try {
+      const response = await fetch('https://api.boilerrate.com/create_user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      })
+
+      const data = await response.json()
+
+      if (data.Success) {
+        return { success: true }
+      } else {
+        return { success: false, error: data.Failure }
+      }
+
+    } catch(error) {
+      return { success: false, error: `${error}`}
+    }
+  }
+
   const logout = () => {
     localStorage.removeItem('token')
     setUser(null)
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   )

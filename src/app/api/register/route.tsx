@@ -32,5 +32,11 @@ export async function POST(req: Request) {
         })
     })
 
-    return Response.json(await response.json())
+    const serverData = await response.json();
+
+    if (serverData.Success) {
+        return Response.json({ success: true })
+    } else {
+        return Response.json({ success: false, error: serverData.Failure })
+    }
 }

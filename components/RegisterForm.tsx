@@ -17,6 +17,7 @@ export default function LoginForm() {
     const result = await register(email, password)
     if (result.success == true) {
         setEmailsent(true)
+        setError('')
     } else if (result.error) {
         setError(result.error)
     }

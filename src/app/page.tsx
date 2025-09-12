@@ -14,8 +14,10 @@ const Root = () => {
       if (user.conn == true) {
         setUserIsNotConn(false)
       }
+    } else {
+      setUserIsNotConn(false)
     }
-  }, [])
+  }, [user])
 
   const do_oauth = async () => {
     const url = await get_oauth()

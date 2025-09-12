@@ -77,10 +77,15 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         
         localStorage.setItem('token', token)
         
-        const decoded: User = jwtDecode(token);
+        const decoded: {email: string, conn: string} = jwtDecode(token);
 
         if (typeof decoded.email === "string") {
-          setUser({ email: decoded.email, conn: decoded.conn });
+          if (decoded.conn === "true") {
+            setUser({ email: decoded.email, conn: true })
+          } else {
+            setUser({ email: decoded.email, conn: false })
+          }
+          
         }
 
         return { success: true }

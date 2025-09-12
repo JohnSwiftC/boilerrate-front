@@ -17,7 +17,7 @@ const Root = () => {
     } else {
       setUserIsNotConn(false)
     }
-  }, [user])
+  }, [])
 
   const do_oauth = async () => {
     const url = await get_oauth()

@@ -18,6 +18,7 @@ interface AuthContextType {
     login: (email: string, password: string) => Promise<AuthResult>
     get_oauth: () => Promise<string>
     logout: () => void,
+    loading: boolean
 }
 
 interface LoginSuccess {
@@ -47,7 +48,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
       const decoded: {email: string, conn: string} = jwtDecode(token);
 
       if (typeof decoded.email === "string") {
-        if (decoded.conn === "true") {
+        if (decoded.conn == "true") {
           setUser({ email: decoded.email, conn: true })
         } else {
           setUser({ email: decoded.email, conn: false })
@@ -120,7 +121,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, get_oauth, logout}}>
+    <AuthContext.Provider value={{ user, login, get_oauth, logout, loading }}>
       {children}
     </AuthContext.Provider>
   )

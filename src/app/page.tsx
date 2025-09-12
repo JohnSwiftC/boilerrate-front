@@ -10,15 +10,16 @@ const Root = () => {
   const [userIsNotConn, setUserIsNotConn] = useState<boolean>(true);
 
   useEffect(() => {
-    console.log(JSON.stringify(user))
     if (user) {
-      if (user.conn == true) {
+      if (user.conn === true) {
         setUserIsNotConn(false)
+      } else {
+        setUserIsNotConn(true)
       }
     } else {
       setUserIsNotConn(false)
     }
-  }, [])
+  }, [user])
 
   const do_oauth = async () => {
     const url = await get_oauth()

@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 
 export interface User {
     email: string | null,
+    photo: string | null,
     conn: boolean
 }
 
@@ -45,13 +46,13 @@ export function AuthProvider({ children }: {children: ReactNode}) {
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
-      const decoded: {email: string, conn: string} = jwtDecode(token);
+      const decoded: {email: string, conn: string, photo: string} = jwtDecode(token);
 
       if (typeof decoded.email === "string") {
         if (decoded.conn == "true") {
-          setUser({ email: decoded.email, conn: true })
+          setUser({ email: decoded.email, conn: true, photo: decoded.photo })
         } else {
-          setUser({ email: decoded.email, conn: false })
+          setUser({ email: decoded.email, conn: false, photo: decoded.photo })
         }
         
       }
@@ -76,15 +77,14 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         console.log(data)
         const token = data.Success.jwt.token
         
-        localStorage.setItem('token', token)
         
-        const decoded: {email: string, conn: string} = jwtDecode(token);
+        const decoded: {email: string, conn: string, photo: string} = jwtDecode(token);
 
         if (typeof decoded.email === "string") {
           if (decoded.conn === "true") {
-            setUser({ email: decoded.email, conn: true })
+            setUser({ email: decoded.email, conn: true, photo: decoded.photo })
           } else {
-            setUser({ email: decoded.email, conn: false })
+            setUser({ email: decoded.email, conn: false, photo: decoded.photo })
           }
           
         }

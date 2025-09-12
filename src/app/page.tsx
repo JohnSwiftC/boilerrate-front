@@ -7,17 +7,15 @@ const Root = () => {
 
   const [oauthURL, setOauthURL] = useState<string>()
   const { user, get_oauth } = useAuth();
-  const [userIsNotConn, setUserIsNotConn] = useState<boolean>(true);
+  const [userIsConn, setUserIsConn] = useState<boolean>(true);
 
   useEffect(() => {
     if (user) {
       if (user.conn === true) {
-        setUserIsNotConn(false)
+        setUserIsConn(true)
       } else {
-        setUserIsNotConn(true)
+        setUserIsConn(false)
       }
-    } else {
-      setUserIsNotConn(false)
     }
   }, [user])
 
@@ -38,7 +36,7 @@ const Root = () => {
 
   return (
     <div className="flex flex-col items-center p-10">
-      {userIsNotConn && (
+      {!userIsConn && (
         <div className='mb-10 relative w-50'>
         <button
           onClick={do_oauth}

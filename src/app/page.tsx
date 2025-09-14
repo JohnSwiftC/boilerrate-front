@@ -36,16 +36,6 @@ const Root = () => {
 
   return (
     <div className="flex flex-col items-center p-10">
-      {!userIsConn && (
-        <div className='mb-10 relative w-50'>
-        <button
-          onClick={do_oauth}
-          className="relative w-full flex justify-center py-4 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-blue-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
-        >
-          Connect your LinkedIn +
-        </button>
-      </div>
-      )}
       <div className="bg-white rounded-xl border border-gray-200 w-full sm:w-11/12 md:w-4/5 lg:w-3/4 xl:w-2/3 mx-auto p-6 sm:p-10 text-gray-900">
         <div className="text-4xl font-bold">
           Welcome to BoilerRate!

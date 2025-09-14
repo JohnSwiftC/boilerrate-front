@@ -6,10 +6,15 @@ import { useState, useRef, useEffect } from 'react'
 export default function Header() {
   const { user, logout, get_oauth } = useAuth()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [photo, setPhoto] = useState("")
+  const [conn, setConn] = useState<boolean>(false)
   const dropdownRef = useRef<any>(null)
 
-  // Close dropdown when clicking outside
+  // Close dropdown when clicking outside, get info from server
   useEffect(() => {
+
+    
+
     function handleClickOutside(event: any) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false)
@@ -42,7 +47,7 @@ export default function Header() {
             {user ? (
               <div className="relative flex flex-row" ref={dropdownRef}>
                 {/* LinkedIn Connect Button (when no photo) */}
-                {!user.photo && (
+                {!photo && (
                   <button
                     onClick={handleLinkedInConnect}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-md text-sm font-medium transition-colors mr-4"
@@ -56,9 +61,9 @@ export default function Header() {
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className="flex items-center justify-center rounded-full p-1 border border-gray-300 hover:border-gray-400 transition-colors"
                 >
-                  {user.photo ? (
+                  {photo ? (
                     <img 
-                      src={user.photo} 
+                      src={photo} 
                       alt="Profile"
                       className="w-9 h-9 rounded-full object-cover"
                     />
@@ -87,7 +92,7 @@ export default function Header() {
                       <div className="px-4 py-2 border-b border-gray-100">
                         <p className="text-sm text-gray-700 font-medium">{user.email}</p>
                         <p className="text-xs text-gray-500">
-                          {user.conn ? 'LinkedIn Connected' : 'LinkedIn Not Connected'}
+                          {conn ? 'LinkedIn Connected' : 'LinkedIn Not Connected'}
                         </p>
                       </div>
                       

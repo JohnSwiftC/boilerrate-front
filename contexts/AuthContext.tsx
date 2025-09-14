@@ -5,8 +5,6 @@ import { jwtDecode } from "jwt-decode";
 
 export interface User {
     email: string | null,
-    photo: string | null,
-    conn: boolean
 }
 
 interface AuthResult {
@@ -50,9 +48,9 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 
       if (typeof decoded.email === "string") {
         if (decoded.conn == "true") {
-          setUser({ email: decoded.email, conn: true, photo: decoded.photo })
+          setUser({ email: decoded.email})
         } else {
-          setUser({ email: decoded.email, conn: false, photo: decoded.photo })
+          setUser({ email: decoded.email})
         }
         
       }
@@ -83,9 +81,9 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 
         if (typeof decoded.email === "string") {
           if (decoded.conn === "true") {
-            setUser({ email: decoded.email, conn: true, photo: decoded.photo })
+            setUser({ email: decoded.email})
           } else {
-            setUser({ email: decoded.email, conn: false, photo: decoded.photo })
+            setUser({ email: decoded.email})
           }
           
         }

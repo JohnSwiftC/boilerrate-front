@@ -40,7 +40,7 @@ export default function Header() {
           {/* Right side - Auth */}
           <div className="flex items-center space-x-4">
             {user ? (
-              <div className="relative" ref={dropdownRef}>
+              <div className="relative flex flex-row" ref={dropdownRef}>
                 {/* LinkedIn Connect Button (when no photo) */}
                 {!user.photo && (
                   <button
@@ -54,21 +54,29 @@ export default function Header() {
                 {/* Profile Photo or Default Avatar */}
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center justify-center w-8 h-8 rounded-full border border-gray-300 hover:border-gray-400 transition-colors"
+                  className="flex items-center justify-center rounded-full p-1 border border-gray-300 hover:border-gray-400 transition-colors"
                 >
                   {user.photo ? (
                     <img 
                       src={user.photo} 
                       alt="Profile"
-                      className="w-8 h-8 rounded-full object-cover"
+                      className="w-9 h-9 rounded-full object-cover"
                     />
                   ) : (
-                    <div className="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center">
+                    <div className="w-9 h-9 rounded-full bg-gray-400 flex items-center justify-center">
                       <span className="text-white text-sm font-medium">
                         {user.email ? user.email[0].toUpperCase() : 'U'}
                       </span>
                     </div>
                   )}
+                   <svg 
+                    className={`w-3 h-3 text-gray-500 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
                 </button>
 
                 {/* Dropdown Menu */}
@@ -82,16 +90,6 @@ export default function Header() {
                           {user.conn ? 'LinkedIn Connected' : 'LinkedIn Not Connected'}
                         </p>
                       </div>
-                      
-                      {/* LinkedIn Connect (if no connection) */}
-                      {!user.conn && (
-                        <button
-                          onClick={handleLinkedInConnect}
-                          className="w-full text-left px-4 py-2 text-sm text-blue-600 hover:bg-gray-50 transition-colors"
-                        >
-                          Connect LinkedIn
-                        </button>
-                      )}
                       
                       {/* Logout Button */}
                       <button

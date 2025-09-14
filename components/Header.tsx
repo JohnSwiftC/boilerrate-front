@@ -23,6 +23,9 @@ export default function Header() {
                 <span className="text-sm text-gray-700">
                   Welcome, {user.email}
                 </span>
+                {user.photo && (
+                  <img src={user.photo}></img>
+                )}
                 <button
                   onClick={logout}
                   className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"

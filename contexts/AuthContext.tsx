@@ -66,13 +66,13 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 
     if (data.conn) {
       setUser({
-        email: user ? user.email : null,
+        email: data.email,
         photo: data.photo,
         conn: true
       })
     } else {
       setUser({
-        email: user ? user.email : null,
+        email: data.email,
         photo: null,
         conn: false
       })

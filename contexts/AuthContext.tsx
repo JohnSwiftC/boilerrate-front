@@ -16,6 +16,7 @@ interface AuthResult {
 
 interface AuthContextType {
     user: User | null,
+    refresh: () => void
     login: (email: string, password: string) => Promise<AuthResult>
     get_oauth: () => Promise<string>
     logout: () => void,
@@ -45,20 +46,38 @@ export function AuthProvider({ children }: {children: ReactNode}) {
   // operations are held on the backend, so it would only be superficial
   useEffect(() => {
     const token = localStorage.getItem('token')
-    if (token) {
-      const decoded: {email: string, conn: string, photo: string} = jwtDecode(token);
-
-      if (typeof decoded.email === "string") {
-        if (decoded.conn == "true") {
-          setUser({ email: decoded.email, conn: true, photo: decoded.photo })
-        } else {
-          setUser({ email: decoded.email, conn: false, photo: decoded.photo })
-        }
-        
-      }
-    }
+    refresh()
     setLoading(false)
   }, [])
+
+  const refresh = async () => {
+    const token = localStorage.getItem('token')
+
+    if (!token) {
+      return
+    }
+
+    const response = await fetch("https://api.boilerrate.com/userinfo", {
+      method: "GET",
+      headers: {"Authorization": `Bearer ${token}`}
+    })
+
+    const data = await response.json()
+
+    if (data.conn) {
+      setUser({
+        email: user ? user.email : null,
+        photo: data.photo,
+        conn: true
+      })
+    } else {
+      setUser({
+        email: user ? user.email : null,
+        photo: null,
+        conn: false
+      })
+    }
+  }
 
   const login = async (email: string, password: string) => {
     try {
@@ -122,7 +141,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, get_oauth, logout, loading }}>
+    <AuthContext.Provider value={{ user, refresh, login, get_oauth, logout, loading }}>
       {children}
     </AuthContext.Provider>
   )

@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth, User } from '../../contexts/AuthContext'
 import Particles from '../../components/Particles';
+import Header from '../../components/Header';
 
 const Root = () => {
   const [oauthURL, setOauthURL] = useState<string>()
@@ -36,6 +37,9 @@ const Root = () => {
   return (
     <>
       <div className="relative w-full h-screen overflow-hidden bg-gradient-to-b from-sky-100 to-sky-300">
+        <div className="m-7">
+          <Header></Header>
+        </div>
         {/* Mountain Layers - Improved Version */}
   <svg className="absolute bottom-0 w-full z-0" viewBox="0 0 1440 600" preserveAspectRatio="none">
   {/* Gradient Definitions */}

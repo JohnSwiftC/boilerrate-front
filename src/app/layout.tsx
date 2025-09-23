@@ -29,10 +29,10 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        style={{ backgroundColor: '#eeeeeeff' }}
       >
-      <div className="bg-gray-50 min-h-screen">
+      <div>
         <AuthProvider>
-          <Header></Header>
           {children}
         </AuthProvider>
       </div>

@@ -116,7 +116,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
       return ''
     }
 
-    let response = await fetch('https://api.boilerrate.com/auth/oauth/get_route', {
+    let response = await fetch('https://api.boilerrate.com/oauth/get_route', {
       method: 'GET',
       headers: {'Authorization': `Bearer ${token}`},
     })

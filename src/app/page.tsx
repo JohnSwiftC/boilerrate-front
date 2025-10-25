@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useAuth, User } from '../../contexts/AuthContext'
 import Particles from '../../components/Particles';
 import Header from '../../components/Header';
+import Blog from '../../components/Blog';
 
 const Root = () => {
   const [oauthURL, setOauthURL] = useState<string>()
@@ -159,6 +160,8 @@ const Root = () => {
         </div>
        
         {/* Text overlay */}
+
+        <Blog></Blog>
   
       </div>
 

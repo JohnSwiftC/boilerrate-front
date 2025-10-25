@@ -40,6 +40,7 @@ const Root = () => {
       <div className="relative w-full h-screen overflow-hidden bg-gradient-to-b from-sky-100 to-sky-300">
         <div className="m-7">
           <Header></Header>
+          <Blog></Blog>
         </div>
         {/* Mountain Layers - Improved Version */}
   <svg className="absolute bottom-0 w-full z-0" viewBox="0 0 1440 600" preserveAspectRatio="none">
@@ -160,8 +161,6 @@ const Root = () => {
         </div>
        
         {/* Text overlay */}
-
-        <Blog></Blog>
   
       </div>
 
